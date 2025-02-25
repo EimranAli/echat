@@ -1,0 +1,38 @@
+#submit-button {
+  outline: none;
+  border: 0;
+  text-shadow: 1px 1px 2px;
+
+  border-radius: 3px;
+  padding: 3px;
+  background-color: dodgerblue;
+  color: white;
+
+  font-size: 30px;
+  text-align: center;
+
+  width: 350px;
+  height: 48.6px;
+
+  position: absolute;
+  bottom: 30px;
+}
+
+#submit-button:hover {
+  cursor: pointer;
+  opacity: 90%;
+}
+
+#join-button{
+  width: 37%;
+  color: white;
+  background-color: dodgerblue;
+
+  text-shadow: 1px 1px;
+  border-radius: 2px;
+}
+
+#join-button:hover{
+  cursor: pointer;
+  opacity: 80%;
+}

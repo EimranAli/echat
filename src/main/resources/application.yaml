@@ -1,0 +1,26 @@
+spring:
+  data:
+    mongodb:
+      user:
+      password:
+      uri: mongodb://localhost:27017/echat-db
+  datasource:
+    url: jdbc:mysql://localhost:3306/echat-db
+    username: sql-user
+    password: sql-pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  docker:
+    compose:
+      enabled: true
+    file: docker-compose.yaml
+
+host:
+  http://localhost:8080/echat
+
+
+# * will enable all actuator end points
+management:
+  endpoints.web.exposure.include: "*"

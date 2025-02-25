@@ -1,0 +1,24 @@
+.room-item-container {
+  width: 100%;
+}
+
+.room-item {
+  padding: 5px;
+  margin-top: 10px;
+
+  font-size: larger;
+  background-color: dodgerblue;
+  color: white;
+}
+
+.copy-signal {
+  text-align: center;
+}
+
+.room-item:hover {
+  cursor: pointer;
+}
+
+.room-item:active {
+  opacity: 80%;
+}

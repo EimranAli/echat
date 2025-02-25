@@ -1,0 +1,19 @@
+.input-item {
+  outline: none;
+  padding: 0;
+  padding-left: 10px;
+  border: 0px;
+  box-shadow: 0.7px 0.7px 3px rgb(204, 211, 217);
+
+  width: 70%;
+  height: 47px;
+
+  box-sizing: border-box;
+  display: flex;
+  font-size: 17px;
+
+  margin: auto;
+  border-radius: 0px;
+
+  margin: 10px auto 10px auto;
+}

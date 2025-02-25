@@ -1,0 +1,58 @@
+.label-item {
+  font-size: 30px;
+  text-align: center;
+  font-style: italic;
+
+  display: inline-flex;
+  justify-content: center;
+  width: 47.5%;
+  height: 48.6;
+
+  border-radius: 2px;
+  margin-top: 4px;
+  padding: 4px;
+  text-shadow: 1px 1px 2px;
+}
+
+/*--------------------join/create room------------------------------*/
+#join-room:hover,
+#join-room-highlight:hover,
+#create-room:hover {
+  cursor: pointer;
+  background-color: dodgerblue;
+  color: white;
+}
+
+#join-room-highlight {
+  background-color: dodgerblue;
+  color: white;
+}
+
+#join-room,
+#join-room-highlight,
+#create-room {
+  width: 100%;
+}
+
+#create-room:active {
+  text-shadow: 1px 1px grey;
+}
+
+/*--------------------register/login----------------------------------*/
+#register-label,
+#register-label-highlight {
+  left: 50%;
+}
+
+#login-label,
+#login-label-highlight,
+#register-label,
+#register-label-highlight:hover {
+  cursor: pointer;
+}
+
+#login-label-highlight,
+#register-label-highlight {
+  background-color: dodgerblue;
+  color: white;
+}

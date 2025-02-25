@@ -1,0 +1,30 @@
+.chat-item{
+  width: 100%;
+  margin-top: 2px;
+}
+
+#sender,
+#message {
+  width: 100%;
+  padding-left: 4px;
+  text-align: left;
+  position: relative;
+}
+
+#sender {
+  font-style: italic;
+  font-size: 12px;
+
+  background-color: lightgrey;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  float: top;
+}
+
+#message {
+  font-size: 20px;
+  background-color: grey;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  float: bottom;
+}
