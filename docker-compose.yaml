@@ -1,0 +1,17 @@
+services:
+  mysql:
+    container_name: 'mysql-database'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=sql-db'
+      - 'MYSQL_PASSWORD=sql-pass'
+      - 'MYSQL_ROOT_PASSWORD=root-pass'
+      - 'MYSQL_USER=sql-user'
+    ports:
+      - '3306:3306'
+
+  mongodb:
+    container_name: 'mongodb-database'
+    image: 'mongodb/mongodb-community-server'
+    ports:
+      - '27017:27017'
