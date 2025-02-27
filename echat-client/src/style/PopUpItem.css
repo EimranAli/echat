@@ -8,3 +8,7 @@
     display: inline-flex;
     justify-content: center;
 }
+
+#user-registration-success-item {
+    color: green;
+}

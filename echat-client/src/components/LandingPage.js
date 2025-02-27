@@ -10,10 +10,11 @@ import PopUpItem from "./PopUpItem";
 import Sha512HashingAlgo from "./utility/Sha512HashingAlgo";
 import axios from "axios";
 import NewRoomCreator from "./utility/NewRoomCreator";
-import UserInfoValidator from "./utility/UserInfoValidator";
 import RoomInputValidator from "./utility/RoomInputValidator";
 import SleepUtil from "./utility/SleepUtil";
 import SetStateAndEraseAlterState from "./utility/SetStateAndEraseAlterState";
+import LoginUserInfoValidator from "./utility/LoginUserInfoValidator";
+import RegisterUserInfoValidator from "./utility/RegisterUserInfoValidator";
 
 var stompClient = null;
 const LandingPage = () => {
@@ -25,14 +26,15 @@ const LandingPage = () => {
   });
 
   const [loginRegisterToggle, setLoginRegisterToggle] = useState(true);
-  const [displayRegistrationError, setDisplayRegistrationError] =
-    useState(false);
+  const [displayRegistrationError, setDisplayRegistrationError] = useState(false);
   const [registerUserInfo, setRegisterUserInfo] = useState({
     email: "",
     firstName: "",
     lastName: "",
     password: "",
   });
+
+  const [displayUserRegistered, setDisplayUserRegistered] = useState(false);
 
   const [displayLoginError, setDisplayLoginError] = useState(false);
   const [loginUserInfo, setLoginUserInfo] = useState({
@@ -155,7 +157,10 @@ const LandingPage = () => {
                   <LabelItem
                     id="create-room"
                     label="Create New Room"
-                    onClick={() => NewRoomCreator(currentUser.email)}
+                    onClick={() => {
+                      setJoinCreateInfo({roomId:""});
+                      NewRoomCreator(currentUser.email);
+                    }}
                   />
                 </div>
                 <div id="room-id-container"></div>
@@ -252,6 +257,10 @@ const LandingPage = () => {
                         updateRegisterUserInfo("password", event)
                       }
                     />
+                    {(displayUserRegistered && <PopUpItem
+                    id="user-registration-success-item"
+                    label="USER REGISTERED"
+                    />)}
                   </>
                 )}
                 <div>
@@ -289,8 +298,7 @@ const LandingPage = () => {
   };
 
   const proceedUserLogin = () => {
-    if (loginUserInfo.email == "" || loginUserInfo.password == "")
-      throw new Error("credentials can't be empty!");
+    LoginUserInfoValidator(loginUserInfo);
 
     let hashedPassword = Sha512HashingAlgo(loginUserInfo.password);
     let url =
@@ -306,23 +314,22 @@ const LandingPage = () => {
           firstName: r.data.name,
           lastName: r.data.lastName,
         });
+        setLoginUserInfo({});
         setUserLoggedInToggle(true);
       } else {
-        displayErrorForSometime(displayLoginError, setDisplayLoginError);
+        displayForSometime(displayLoginError, setDisplayLoginError);
       }
     });
   };
 
-  const displayErrorForSometime = async (toggle, handler) => {
+  const displayForSometime = async (toggle, handler) => {
     handler(true);
     await SleepUtil(3000);
     handler(false);
   };
 
   const proceedUserRegistration = () => {
-    if (!UserInfoValidator(registerUserInfo)) {
-      throw new Error("user input not valid");
-    }
+    RegisterUserInfoValidator(registerUserInfo);
     registerUser();
   };
 
@@ -344,9 +351,10 @@ const LandingPage = () => {
 
     axios.post(url, body).then((r) => {
       if (r.data === "ACCEPTED") {
-        alert("user registered");
+        setRegisterUserInfo({});
+        displayForSometime(displayUserRegistered, setDisplayUserRegistered);
       } else {
-        displayErrorForSometime(
+        displayForSometime(
           displayRegistrationError,
           setDisplayRegistrationError
         );
@@ -355,8 +363,7 @@ const LandingPage = () => {
   };
 
   const onConnected = () => {
-    // todo clean members and chats when joining, make this work
-
+    cleanExistingMembersAndChats();
     updateDBWithNewUserAndUIWithCurrentGroupChat();
     setIsUserConnected(true);
     stompClient.subscribe(
@@ -364,6 +371,11 @@ const LandingPage = () => {
       onPrivateMessageReceived
     );
   };
+
+  const cleanExistingMembersAndChats = () => {
+    members.length = 0;
+    chats.length = 0;
+  }
 
   const updateDBWithNewUserAndUIWithCurrentGroupChat = () => {
     let url = "http://localhost:8080/echat/chat-archive/update-member?roomId="+joinCreateInfo.roomId+"&member="+joinCreateInfo.name;
