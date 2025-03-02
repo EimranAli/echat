@@ -26,7 +26,8 @@ const LandingPage = () => {
   });
 
   const [loginRegisterToggle, setLoginRegisterToggle] = useState(true);
-  const [displayRegistrationError, setDisplayRegistrationError] = useState(false);
+  const [displayRegistrationError, setDisplayRegistrationError] =
+    useState(false);
   const [registerUserInfo, setRegisterUserInfo] = useState({
     email: "",
     firstName: "",
@@ -158,7 +159,10 @@ const LandingPage = () => {
                     id="create-room"
                     label="Create New Room"
                     onClick={() => {
-                      setJoinCreateInfo({roomId:"", name:joinCreateInfo.name});
+                      setJoinCreateInfo({
+                        roomId: "",
+                        name: joinCreateInfo.name,
+                      });
                       NewRoomCreator(currentUser.email);
                     }}
                   />
@@ -257,10 +261,12 @@ const LandingPage = () => {
                         updateRegisterUserInfo("password", event)
                       }
                     />
-                    {(displayUserRegistered && <PopUpItem
-                    id="user-registration-success-item"
-                    label="USER REGISTERED"
-                    />)}
+                    {displayUserRegistered && (
+                      <PopUpItem
+                        id="user-registration-success-item"
+                        label="USER REGISTERED"
+                      />
+                    )}
                   </>
                 )}
                 <div>
@@ -270,8 +276,8 @@ const LandingPage = () => {
                       displayLoginError
                         ? "INCORRECT EMAIL OR PASSWORD!"
                         : displayRegistrationError
-                          ? "REGISTRATION FAILED!"
-                          : ""
+                        ? "REGISTRATION FAILED!"
+                        : ""
                     }
                   />
                 </div>
@@ -375,10 +381,14 @@ const LandingPage = () => {
   const cleanExistingMembersAndChats = () => {
     members.length = 0;
     chats.length = 0;
-  }
+  };
 
   const updateDBWithNewUserAndUIWithCurrentGroupChat = () => {
-    let url = "http://localhost:8080/echat/chat-archive/update-member?roomId="+joinCreateInfo.roomId+"&member="+joinCreateInfo.name;
+    let url =
+      "http://localhost:8080/echat/chat-archive/update-member?roomId=" +
+      joinCreateInfo.roomId +
+      "&member=" +
+      joinCreateInfo.name;
 
     try {
       axios
@@ -402,20 +412,22 @@ const LandingPage = () => {
 
     try {
       axios.get(url).then((r) => {
-        r.data.members.forEach(member => {
+        r.data.members.forEach((member) => {
           members.push(member);
         });
-        r.data.chats.forEach(chat => {
+        r.data.chats.forEach((chat) => {
           let uiChat = {
-            sender:chat.sender, 
-            message:chat.text
-          }
+            sender: chat.sender,
+            message: chat.text,
+          };
 
           chats.push(uiChat);
         });
 
         updateUI();
-        console.log("present data available for ui : " + members + " , " + chats);
+        console.log(
+          "present data available for ui : " + members + " , " + chats
+        );
       });
     } catch (error) {
       console.log(
@@ -428,17 +440,20 @@ const LandingPage = () => {
   const updateUI = () => {
     setMembers([...members]);
     setChats([...chats]);
-  }
+  };
 
   const onPrivateMessageReceived = (payload) => {
     var payloadData = JSON.parse(payload.body);
-    if(payloadData.textMessage != null && payloadData.textMessage.trim() != "") {
+    if (
+      payloadData.textMessage != null &&
+      payloadData.textMessage.trim() != ""
+    ) {
       let chat = {
         sender: payloadData.sender,
         message: payloadData.textMessage,
       };
 
-      if(!members.includes(payloadData.sender)){
+      if (!members.includes(payloadData.sender)) {
         members.push(payloadData.sender);
         setMembers([...members]);
       }
@@ -453,14 +468,18 @@ const LandingPage = () => {
   const updateChatInDB = (chat) => {
     let dbChat = {
       sender: chat.sender,
-      text: chat.message
-    }
-    let url = "http://localhost:8080/echat/chat-archive/update-chat/" + joinCreateInfo.roomId;
+      text: chat.message,
+    };
+    let url =
+      "http://localhost:8080/echat/chat-archive/update-chat/" +
+      joinCreateInfo.roomId;
 
     try {
       axios
         .put(url, dbChat)
-        .then(() => console.log("new chat updated for room " + joinCreateInfo.roomId));
+        .then(() =>
+          console.log("new chat updated for room " + joinCreateInfo.roomId)
+        );
     } catch (error) {
       console.log(error);
       console.log("chat was not updated. check server");

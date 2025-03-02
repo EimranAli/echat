@@ -1,14 +1,14 @@
-.popup-item-class{
-    width: 100%;
+.popup-item-class {
+  width: 100%;
 
-    font-size: 17px;
-    font-weight: bold;
-    color: red;
+  font-size: 17px;
+  font-weight: bold;
+  color: red;
 
-    display: inline-flex;
-    justify-content: center;
+  display: inline-flex;
+  justify-content: center;
 }
 
 #user-registration-success-item {
-    color: green;
+  color: green;
 }
