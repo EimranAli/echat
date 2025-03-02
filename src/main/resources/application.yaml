@@ -3,9 +3,9 @@ spring:
     mongodb:
       user:
       password:
-      uri: mongodb://localhost:27017/echat-db
+      uri: mongodb://localhost:27017/mongo-db
   datasource:
-    url: jdbc:mysql://localhost:3306/echat-db
+    url: jdbc:mysql://localhost:3306/sql-db
     username: sql-user
     password: sql-pass
   jpa:

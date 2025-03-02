@@ -158,7 +158,7 @@ const LandingPage = () => {
                     id="create-room"
                     label="Create New Room"
                     onClick={() => {
-                      setJoinCreateInfo({roomId:""});
+                      setJoinCreateInfo({roomId:"", name:joinCreateInfo.name});
                       NewRoomCreator(currentUser.email);
                     }}
                   />
