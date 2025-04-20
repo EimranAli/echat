@@ -15,15 +15,11 @@ public class UserService {
 
 
     public HttpStatus registerUser(User user) {
+        if(userRepository.existsById(user.getEmail()))
+            return HttpStatus.CONFLICT;
+
         userRepository.save(user);
         return HttpStatus.ACCEPTED;
-    }
-
-    public User getUser(String email, String hashedPassword) {
-        Optional<User> user = userRepository.findById(email);
-        // remove password for security reasons
-        user.ifPresent(u -> u.setHashedPassword(null));
-        return user.orElse(null);
     }
 }
 

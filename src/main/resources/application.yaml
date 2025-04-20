@@ -20,7 +20,10 @@ spring:
 host:
   http://localhost:8080/echat
 
-
-# * will enable all actuator end points
 management:
-  endpoints.web.exposure.include: "*"
+  endpoints.web:
+    exposure.include: "*" # will enable all actuator end points
+
+echat:
+  jwtSecretKey: supersupersecretlykeptsecretkey
+  jwtExpirationTime: 120000
