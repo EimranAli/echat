@@ -1,4 +1,4 @@
-package com.electroniccommunication.echat.config;
+package com.electroniccommunication.echat.jwt;
 
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -13,21 +13,19 @@ import javax.security.auth.kerberos.EncryptionKey;
 import java.util.Date;
 
 @Component
-public class JWTGenerator {
+public class JwtUtils {
     @Value("${echat.jwtSecretKey}")
     private String secretKey;
     @Value("${echat.jwtExpirationTime}")
     private String jwtExpirationTime;
 
-    private SecretKey key;
-    private JwtParser jwtParser;
+    private final SecretKey key;
+    private final JwtParser jwtParser;
 
-    @PostConstruct
-    // injection of secretKey and jwtExpirationTime happens after constructor
-    void init() {
+    private JwtUtils(){
         // https://techcommunity.microsoft.com/blog/coreinfrastructureandsecurityblog/decrypting-the-selection-of-supported-kerberos-encryption-types/1628797
         key = new EncryptionKey(secretKey.getBytes(), 31);
-        jwtParser = Jwts.parser().decryptWith(key).build();
+        jwtParser = Jwts.parser().verifyWith(key).build();
     }
 
     public String generateToken(Authentication authentication) {
